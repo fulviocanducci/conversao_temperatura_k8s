@@ -1,0 +1,33 @@
+# Deploy Web
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webct
+spec:
+  selector:
+    matchLabels:
+      app: webct
+  template:
+    metadata:
+      labels:
+        app: webct
+    spec:
+      containers:
+      - name: mongodb
+        image: fulviocanducci/conversao_temperatura:v1
+        ports:
+          - containerPort: 8080
+---
+# Service Web
+apiVersion: v1
+kind: Service
+metadata:
+  name: webct
+spec:
+  selector:
+    app: webct
+  ports:
+  - port: 8181
+    targetPort: 8080
+    nodePort: 30000
+  type: NodePort
